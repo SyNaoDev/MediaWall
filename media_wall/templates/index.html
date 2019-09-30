@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Authentication</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+	{% if messages %}
+		<hr><ul class="messages">
+			{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul><hr>
+	{% endif %}
+	<h1>Authentication</h1>
+	<form action="/auth/login" method="POST">
+		{% csrf_token %}
+		<label for="l_email">Email: </label>
+		<input type="text" name="email" id="l_email"><br>
+		<label for="l_password">Password: </label>
+		<input type="password" name="password" id="l_password"><br>
+		<input type="submit" value="Login!"><br>
+	</form>
+	<br><br>
+	<form action="/auth/register" method="POST">
+		{% csrf_token %}
+		<label for="first_name">First Name: </label>
+		<input type="text" name="first_name" id="first_name"><br>
+		<label for="last_name">Last Name: </label>
+		<input type="text" name="last_name" id="last_name"><br>
+		<label for="r_email">Email: </label>
+		<input type="text" name="email" id="r_email"><br>
+		<label for="r_password">Password: </label>
+		<input type="password" name="password" id="r_password"><br>
+		<label for="r_password_confirm">Confirm Password: </label>
+		<input type="password" name="password_confirm" id="r_password_confirm"><br>
+		<input type="submit" value="Register!">
+	</form>
+</body>
+</html>

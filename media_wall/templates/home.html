@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Wall</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+	<h3>Welcome, {{ user.first_name }}!</h3>
+	<a href="/auth/logout">Log Out</a><hr>
+	<form action="/wall/message/{{ user.id }}" method="POST">
+		{% csrf_token %}
+		<label for="text">Message: </label><br>
+		<textarea name="text" id="text" cols="80" rows="10"></textarea><br>
+		<input type="submit" value="Post"><br>
+	</form>
+	{% for msg in wall_msgs %}
+		<div>
+			<p class="bold">
+				{{ msg.user.first_name }} {{ msg.user.last_name }} - {{ msg.created_at }}
+				{% if msg.user.id == user.id %}
+					<a href="/wall/remove/{{ msg.id }}">
+						<button>Remove</button>
+					</a>
+				{% endif %}
+			</p>
+			<p class="msg_tab">
+				{{ msg.text }}
+			</p>
+			{% for cmt in msg.comments.all %}
+				<div class="cmt_tab">
+					<p class="bold">
+						{{ cmt.user.first_name }} {{ cmt.user.last_name }} - {{ msg.created_at }}
+					</p>
+					<p>
+						{{ cmt.text }}
+					</p>
+				</div>
+			{% endfor %}
+			<div class="cmt_tab">
+				<form action="/wall/comment/{{ user.id }}/{{ msg.id }}" method="POST">
+					{% csrf_token %}
+					<label for="text">Comment: </label><br>
+					<textarea name="text" id="" cols="80" rows="10"></textarea><br>
+					<input type="submit" value="Post"><br>
+				</form>
+			</div>
+		</div>
+	{% endfor %}
+</body>
+</html>

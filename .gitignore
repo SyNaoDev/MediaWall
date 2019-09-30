@@ -1,0 +1,8 @@
+.vscode/
+env/
+media_wall/db.sqlite3
+media_wall/app_auth/__pycache__/
+media_wall/app_auth/migrations/__pycache__/
+media_wall/app_wall/__pycache__/
+media_wall/app_wall/migrations/__pycache__/
+media_wall/media_wall/__pycache__/
